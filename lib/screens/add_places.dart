@@ -51,6 +51,7 @@ class _AddPlacesScreenState extends ConsumerState<AddPlacesScreen> {
               controller: _titleController,
               style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
+            const SizedBox(height: 16),
             PlaceImage(),
             const SizedBox(height: 16),
             ElevatedButton.icon(
