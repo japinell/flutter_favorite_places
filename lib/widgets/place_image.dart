@@ -25,7 +25,9 @@ class _PlaceImageState extends State<PlaceImage> {
       return;
     }
 
-    _imageFile = File(pickedImage.path);
+    setState(() {
+      _imageFile = File(pickedImage.path);
+    });
   }
 
   @override
