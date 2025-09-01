@@ -39,7 +39,12 @@ class _PlaceImageState extends State<PlaceImage> {
     );
 
     if (_imageFile != null) {
-      content = Image.file(_imageFile!, fit: BoxFit.cover);
+      content = Image.file(
+        _imageFile!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
     }
 
     return Container(
