@@ -32,6 +32,7 @@ class _AddPlacesScreenState extends State<AddPlacesScreen> {
                 hintText: "Enter a title",
               ),
               controller: _titleController,
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
             ),
             const SizedBox(height: 16),
             ElevatedButton.icon(
