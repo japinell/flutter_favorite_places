@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import "package:google_fonts/google_fonts.dart";
 
+import "package:flutter_favorite_places/screens/places.dart";
+
 final colorScheme = ColorScheme.fromSeed(
   seedColor: const Color.fromARGB(255, 102, 6, 247),
   surface: const Color.fromARGB(255, 56, 49, 66),
@@ -28,8 +30,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Favorite Places",
       theme: theme,
-      home: ...,
+      home: PlacesScreen(),
     );
   }
 }
-
