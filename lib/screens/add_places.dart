@@ -1,16 +1,32 @@
 import "package:flutter/material.dart";
+import "package:flutter_riverpod/flutter_riverpod.dart";
 
-class AddPlacesScreen extends StatefulWidget {
+import "package:flutter_favorite_places/providers/places.dart";
+import "package:flutter_favorite_places/models/place.dart";
+
+class AddPlacesScreen extends ConsumerStatefulWidget {
   const AddPlacesScreen({super.key});
 
   @override
-  State<AddPlacesScreen> createState() {
+  ConsumerState<AddPlacesScreen> createState() {
     return _AddPlacesScreenState();
   }
 }
 
-class _AddPlacesScreenState extends State<AddPlacesScreen> {
+class _AddPlacesScreenState extends ConsumerState<AddPlacesScreen> {
   final _titleController = TextEditingController();
+
+  void _savePlace() {
+    final enteredTitle = _titleController.text;
+
+    if (enteredTitle.isEmpty) {
+      return;
+    }
+
+    ref.read(placesProvider.notifier).addPlace(Place(title: enteredTitle));
+
+    Navigator.of(context).pop();
+  }
 
   @override
   void dispose() {
