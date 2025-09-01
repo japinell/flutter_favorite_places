@@ -27,6 +27,16 @@ class _PlaceImageState extends State<PlaceImage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget content = TextButton.icon(
+        onPressed: _takePicture,
+        icon: Icon(Icons.camera),
+        label: const Text("Take Picture"),
+      );
+
+    if (_imageFile != null) {
+      content = Image.file(_imageFile!, fit: BoxFit.cover,);
+    }
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -37,11 +47,7 @@ class _PlaceImageState extends State<PlaceImage> {
       height: 250,
       width: double.infinity,
       alignment: Alignment.center,
-      child: TextButton.icon(
-        onPressed: _takePicture,
-        icon: Icon(Icons.camera),
-        label: const Text("Take Picture"),
-      ),
+      child: content,
     );
   }
 }
