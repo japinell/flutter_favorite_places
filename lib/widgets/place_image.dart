@@ -39,11 +39,14 @@ class _PlaceImageState extends State<PlaceImage> {
     );
 
     if (_imageFile != null) {
-      content = Image.file(
-        _imageFile!,
-        fit: BoxFit.cover,
-        width: double.infinity,
-        height: double.infinity,
+      content = GestureDetector(
+        onTap: _takePicture,
+        child: Image.file(
+          _imageFile!,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
       );
     }
 
