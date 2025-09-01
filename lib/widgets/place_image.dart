@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import "dart:io";
-import "package:image_picker/image_picker.dart"
+import "package:image_picker/image_picker.dart";
 
 class PlaceImage extends StatefulWidget {
   const PlaceImage({super.key});
@@ -16,7 +16,10 @@ class _PlaceImageState extends State<PlaceImage> {
 
   void _takePicture() async {
     final imagePicker = ImagePicker();
-    final pickedImage = await imagePicker.pickImage(source: ImageSource.camera, maxWidth: 600);
+    final pickedImage = await imagePicker.pickImage(
+      source: ImageSource.camera,
+      maxWidth: 600,
+    );
 
     if (pickedImage == null) {
       return;
@@ -28,13 +31,13 @@ class _PlaceImageState extends State<PlaceImage> {
   @override
   Widget build(BuildContext context) {
     Widget content = TextButton.icon(
-        onPressed: _takePicture,
-        icon: Icon(Icons.camera),
-        label: const Text("Take Picture"),
-      );
+      onPressed: _takePicture,
+      icon: Icon(Icons.camera),
+      label: const Text("Take Picture"),
+    );
 
     if (_imageFile != null) {
-      content = Image.file(_imageFile!, fit: BoxFit.cover,);
+      content = Image.file(_imageFile!, fit: BoxFit.cover);
     }
 
     return Container(
