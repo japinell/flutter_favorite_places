@@ -10,6 +10,8 @@ class PlaceImage extends StatefulWidget {
 }
 
 class _PlaceImageState extends State<PlaceImage> {
+  void _takePicture() {}
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,7 +25,7 @@ class _PlaceImageState extends State<PlaceImage> {
       width: double.infinity,
       alignment: Alignment.center,
       child: TextButton.icon(
-        onPressed: () {},
+        onPressed: _takePicture,
         icon: Icon(Icons.camera),
         label: const Text("Take Picture"),
       ),
