@@ -7,7 +7,9 @@ import "dart:convert";
 import "package:flutter_favorite_places/models/place.dart";
 
 class PlaceLocation extends StatefulWidget {
-  const PlaceLocation({super.key});
+  const PlaceLocation({super.key, required this.onSelectLocation});
+
+  final void Function(CustomLocation location) onSelectLocation;
 
   @override
   State<PlaceLocation> createState() {
@@ -88,6 +90,8 @@ class _PlaceLocationState extends State<PlaceLocation> {
 
       _isGettingLocation = false;
     });
+
+    widget.onSelectLocation(_location);
   }
 
   @override
