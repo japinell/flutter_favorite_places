@@ -71,6 +71,8 @@ class _PlaceLocationState extends State<PlaceLocation> {
     final staticImage =
         "$googleMapsStaticMapUrl?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=$googleMapsAPIKey";
 
+    print(staticImage);
+
     final response = await http.get(url);
     final data = json.decode(response.body);
     final address = data["results"][0]["formatted_address"];
@@ -102,12 +104,14 @@ class _PlaceLocationState extends State<PlaceLocation> {
       content = const CircularProgressIndicator();
     }
 
-    content = Image.network(
-      _locationImage,
-      fit: BoxFit.cover,
-      width: double.infinity,
-      height: double.infinity,
-    );
+    if (_locationImage.isNotEmpty) {
+      content = Image.network(
+        _locationImage,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+      );
+    }
 
     return Column(
       children: [
