@@ -5,6 +5,7 @@ import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:flutter_favorite_places/models/place.dart";
 import "package:flutter_favorite_places/providers/places.dart";
 import "package:flutter_favorite_places/widgets/place_image.dart";
+import "package:flutter_favorite_places/widgets/place_location.dart";
 
 class AddPlacesScreen extends ConsumerStatefulWidget {
   const AddPlacesScreen({super.key});
@@ -61,6 +62,8 @@ class _AddPlacesScreenState extends ConsumerState<AddPlacesScreen> {
                 _imageFile = image;
               },
             ),
+            const SizedBox(height: 16),
+            PlaceLocation(),
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: _savePlace,
