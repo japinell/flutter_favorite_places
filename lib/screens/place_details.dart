@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import "package:flutter_dotenv/flutter_dotenv.dart";
 
 import "package:flutter_favorite_places/models/place.dart";
 
@@ -6,6 +7,16 @@ class PlaceDetailsScreen extends StatelessWidget {
   const PlaceDetailsScreen({super.key, required this.place});
 
   final Place place;
+
+  String get imageLocation {
+    final googleMapsAPIKey = dotenv.env["GOOGLE_MAPS_API_KEY"];
+    final googleMapsStaticMapUrl = dotenv.env["GOOGLE_MAPS_STATIC_MAP_URL"];
+
+    final staticImage =
+        "$googleMapsStaticMapUrl?center=${place.location.latitude},${place.location.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C${place.location.latitude},${place.location.longitude}&key=$googleMapsAPIKey";
+
+    return staticImage;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +38,7 @@ class PlaceDetailsScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 70,
-                  backgroundImage: NetworkImage(
-                    "https://maps.googleapis.com/maps/api/staticmap?center=${place.location.latitude},${place.location.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C${place.location.latitude},${place.location.longitude}&key=YOUR_API_KEY",
-                  ),
+                  backgroundImage: NetworkImage(imageLocation),
                 ),
                 Container(
                   alignment: Alignment.center,
