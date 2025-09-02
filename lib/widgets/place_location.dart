@@ -16,7 +16,11 @@ class PlaceLocation extends StatefulWidget {
 }
 
 class _PlaceLocationState extends State<PlaceLocation> {
-  CustomLocation _location;
+  CustomLocation _location = CustomLocation(
+    latitude: 0,
+    longitude: 0,
+    address: "",
+  );
   String _locationImage = "";
   var _isGettingLocation = false;
 
