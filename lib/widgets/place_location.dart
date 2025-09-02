@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
 import "package:location/location.dart";
+import "package:http/http.dart" as http;
+import "package:flutter_dotenv/flutter_dotenv.dart";
+import "dart:convert";
 
 class PlaceLocation extends StatefulWidget {
   const PlaceLocation({super.key});
@@ -42,6 +45,21 @@ class _PlaceLocationState extends State<PlaceLocation> {
     });
 
     locationData = await location.getLocation();
+
+    final latitude = locationData.latitude;
+    final longitude = locationData.longitude;
+
+    final googleMapsAPIKey = dotenv.env["GOOGLE_MAPS_API_KEY"];
+    final googleGeocodingUrl = dotenv.env["GOOGLE_MAPS_GEOCODING_URL"];
+    final googleGeocodingUrlPath = dotenv.env["GOOGLE_MAPS_GEOCODING_URL_PATH"];
+
+    final url = Uri.parse(
+      "$googleGeocodingUrl$googleGeocodingUrlPath/json?latlng=$latitude,$longitude&key=$googleMapsAPIKey",
+    );
+
+    final response = await http.get(url);
+    final data = json.decode(response.body);
+    final address = data["results"][0]["formatted_address"];
 
     setState(() {
       _isGettingLocation = false;
