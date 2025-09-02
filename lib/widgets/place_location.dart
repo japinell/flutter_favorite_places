@@ -17,7 +17,15 @@ class PlaceLocation extends StatefulWidget {
 
 class _PlaceLocationState extends State<PlaceLocation> {
   CustomLocation _location;
+  String _locationImage = "";
   var _isGettingLocation = false;
+
+  String get locationImage {
+    final latitude = _location.latitude;
+    final longitude = _location.longitude;
+
+    return "https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=YOUR_API_KEY"
+  }
 
   void _getLocation() async {
     Location location = Location();
@@ -57,11 +65,13 @@ class _PlaceLocationState extends State<PlaceLocation> {
 
     final googleMapsAPIKey = dotenv.env["GOOGLE_MAPS_API_KEY"];
     final googleGeocodingUrl = dotenv.env["GOOGLE_MAPS_GEOCODING_URL"];
-    final googleGeocodingUrlPath = dotenv.env["GOOGLE_MAPS_GEOCODING_URL_PATH"];
+    final googleMapsStaticMapUrl = dotenv.env["GOOGLE_MAPS_STATIC_MAP_URL"];
 
     final url = Uri.parse(
-      "$googleGeocodingUrl$googleGeocodingUrlPath/json?latlng=$latitude,$longitude&key=$googleMapsAPIKey",
+      "$googleGeocodingUrl/json?latlng=$latitude,$longitude&key=$googleMapsAPIKey",
     );
+
+    final staticImage = "$googleMapsStaticMapUrl?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=$googleMapsAPIKey";
 
     final response = await http.get(url);
     final data = json.decode(response.body);
@@ -73,6 +83,9 @@ class _PlaceLocationState extends State<PlaceLocation> {
         longitude: longitude!,
         address: address,
       );
+
+      _locationImage = staticImage;
+
       _isGettingLocation = false;
     });
   }
@@ -90,6 +103,13 @@ class _PlaceLocationState extends State<PlaceLocation> {
     if (_isGettingLocation) {
       content = const CircularProgressIndicator();
     }
+
+    content = Image.network(
+      _locationImage,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+    );
 
     return Column(
       children: [
