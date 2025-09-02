@@ -46,9 +46,6 @@ class _PlaceLocationState extends State<PlaceLocation> {
     setState(() {
       _isGettingLocation = false;
     });
-
-    print(locationData.latitude);
-    print(locationData.longitude);
   }
 
   @override
