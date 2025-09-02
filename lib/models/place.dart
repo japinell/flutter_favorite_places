@@ -3,24 +3,27 @@ import "dart:io";
 
 const uuid = Uuid();
 
-class Place {
-  final String id;
-  final String title;
-  final File image;
-  final PlaceLocation location;
-
-  Place({required this.title, required this.image, required this.location})
-    : id = uuid.v4();
-}
-
-class PlaceLocation {
+class CustomLocation {
   final double latitude;
   final double longitude;
   final String address;
 
-  const PlaceLocation({
+  const CustomLocation({
     required this.latitude,
     required this.longitude,
     required this.address,
   });
+}
+
+class Place {
+  final String id;
+  final String title;
+  final File image;
+  final CustomLocation location;
+
+  const Place({
+    required this.title,
+    required this.image,
+    required this.location,
+  }) : id = uuid.v4();
 }

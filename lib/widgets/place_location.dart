@@ -4,6 +4,8 @@ import "package:http/http.dart" as http;
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import "dart:convert";
 
+import "package:flutter_favorite_places/models/place.dart";
+
 class PlaceLocation extends StatefulWidget {
   const PlaceLocation({super.key});
 
@@ -14,7 +16,7 @@ class PlaceLocation extends StatefulWidget {
 }
 
 class _PlaceLocationState extends State<PlaceLocation> {
-  Location? _location;
+  CustomLocation _location;
   var _isGettingLocation = false;
 
   void _getLocation() async {
@@ -49,6 +51,10 @@ class _PlaceLocationState extends State<PlaceLocation> {
     final latitude = locationData.latitude;
     final longitude = locationData.longitude;
 
+    if (latitude == null || longitude == null) {
+      return;
+    }
+
     final googleMapsAPIKey = dotenv.env["GOOGLE_MAPS_API_KEY"];
     final googleGeocodingUrl = dotenv.env["GOOGLE_MAPS_GEOCODING_URL"];
     final googleGeocodingUrlPath = dotenv.env["GOOGLE_MAPS_GEOCODING_URL_PATH"];
@@ -62,6 +68,11 @@ class _PlaceLocationState extends State<PlaceLocation> {
     final address = data["results"][0]["formatted_address"];
 
     setState(() {
+      _location = CustomLocation(
+        latitude: latitude!,
+        longitude: longitude!,
+        address: address,
+      );
       _isGettingLocation = false;
     });
   }
