@@ -8,7 +8,7 @@ class CustomLocation {
   final double longitude;
   final String address;
 
-  const CustomLocation({
+  CustomLocation({
     required this.latitude,
     required this.longitude,
     required this.address,
@@ -19,11 +19,11 @@ class Place {
   final String id;
   final String title;
   final File image;
-  final CustomLocation location;
+  //final CustomLocation location;
 
-  const Place({
+  Place({
     required this.title,
     required this.image,
-    required this.location,
+    //required this.location,
   }) : id = uuid.v4();
 }

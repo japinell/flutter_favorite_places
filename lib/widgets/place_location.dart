@@ -20,13 +20,6 @@ class _PlaceLocationState extends State<PlaceLocation> {
   String _locationImage = "";
   var _isGettingLocation = false;
 
-  String get locationImage {
-    final latitude = _location.latitude;
-    final longitude = _location.longitude;
-
-    return "https://maps.googleapis.com/maps/api/staticmap?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=YOUR_API_KEY"
-  }
-
   void _getLocation() async {
     Location location = Location();
 
@@ -71,7 +64,8 @@ class _PlaceLocationState extends State<PlaceLocation> {
       "$googleGeocodingUrl/json?latlng=$latitude,$longitude&key=$googleMapsAPIKey",
     );
 
-    final staticImage = "$googleMapsStaticMapUrl?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=$googleMapsAPIKey";
+    final staticImage =
+        "$googleMapsStaticMapUrl?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=$googleMapsAPIKey";
 
     final response = await http.get(url);
     final data = json.decode(response.body);
