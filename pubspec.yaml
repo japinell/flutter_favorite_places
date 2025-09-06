@@ -43,6 +43,7 @@ dependencies:
   flutter_dotenv: ^6.0.0
   google_maps_flutter: ^2.13.1
   google_maps_flutter_android: ^2.18.2
+  google_maps_flutter_platform_interface: ^2.14.0
 
 dev_dependencies:
   flutter_test:
