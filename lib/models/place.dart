@@ -8,7 +8,7 @@ class CustomLocation {
   final double longitude;
   final String address;
 
-  CustomLocation({
+  const CustomLocation({
     required this.latitude,
     required this.longitude,
     required this.address,
