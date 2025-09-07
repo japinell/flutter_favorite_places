@@ -9,16 +9,7 @@ import "package:flutter_favorite_places/models/place.dart";
 class PlacesNotifier extends StateNotifier<List<Place>> {
   PlacesNotifier() : super(const []);
 
-  void addPlace(Place place) async {
-    final appPath = await syspath.getApplicationDocumentsDirectory();
-    final fileName = path.basename(place.image.path);
-    final newImage = await place.image.copy("${appPath.path}/$fileName");
-    final newPlace = Place(
-      title: place.title,
-      image: newImage,
-      location: place.location,
-    );
-
+  Future<Database> _getDatabase() async {
     final dbPath = await sql.getDatabasesPath();
     final database = await sql.openDatabase(
       path.join(dbPath, "places.db"),
@@ -29,6 +20,21 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
       },
       version: 1,
     );
+
+    return database;
+  }
+
+  void addPlace(Place place) async {
+    final appPath = await syspath.getApplicationDocumentsDirectory();
+    final fileName = path.basename(place.image.path);
+    final newImage = await place.image.copy("${appPath.path}/$fileName");
+    final newPlace = Place(
+      title: place.title,
+      image: newImage,
+      location: place.location,
+    );
+
+    final database = await _getDatabase();
 
     database.insert("places", {
       "id": newPlace.id,
