@@ -1,3 +1,5 @@
+import "dart:io";
+
 import "package:flutter_riverpod/flutter_riverpod.dart";
 import "package:path_provider/path_provider.dart" as syspath;
 import "package:path/path.dart" as path;
@@ -22,6 +24,23 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     );
 
     return database;
+  }
+
+  void fetchPlaces() async {
+    final database = await _getDatabase();
+    final places = await database.query("places");
+
+    places.map(
+      (row) => Place(
+        title: row["title"] as String,
+        image: File(row["image"] as String),
+        location: CustomLocation(
+          latitude: row["latitude"] as double,
+          longitude: row["longitude"] as double,
+          address: row["address"] as String,
+        ),
+      ),
+    );
   }
 
   void addPlace(Place place) async {
