@@ -21,6 +21,10 @@ class Place {
   final File image;
   final CustomLocation location;
 
-  Place({id, required this.title, required this.image, required this.location})
-    : id = id ?? uuid.v4();
+  Place({
+    String? id,
+    required this.title,
+    required this.image,
+    required this.location,
+  }) : id = id ?? uuid.v4();
 }
