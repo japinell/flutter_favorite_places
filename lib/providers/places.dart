@@ -28,20 +28,24 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
 
   void fetchPlaces() async {
     final database = await _getDatabase();
-    final places = await database.query("places");
+    final placesData = await database.query("places");
 
-    places.map(
-      (row) => Place(
-        id: row["id"] as String,
-        title: row["title"] as String,
-        image: File(row["image"] as String),
-        location: CustomLocation(
-          latitude: row["latitude"] as double,
-          longitude: row["longitude"] as double,
-          address: row["address"] as String,
-        ),
-      ),
-    );
+    final places = placesData
+        .map(
+          (row) => Place(
+            id: row["id"] as String,
+            title: row["title"] as String,
+            image: File(row["image"] as String),
+            location: CustomLocation(
+              latitude: row["latitude"] as double,
+              longitude: row["longitude"] as double,
+              address: row["address"] as String,
+            ),
+          ),
+        )
+        .toList();
+
+    state = places;
   }
 
   void addPlace(Place place) async {
