@@ -26,7 +26,7 @@ class PlacesNotifier extends StateNotifier<List<Place>> {
     return database;
   }
 
-  void fetchPlaces() async {
+  Future fetchPlaces() async {
     final database = await _getDatabase();
     final placesData = await database.query("places");
 

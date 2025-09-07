@@ -28,7 +28,13 @@ class PlacesScreen extends ConsumerWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: PlacesList(places: places),
+        child: FutureBuilder(
+          future: future,
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.waiting
+              ? const Center(child: CircularProgressIndicator())
+              : PlacesList(places: places),
+        ),
       ),
     );
   }
