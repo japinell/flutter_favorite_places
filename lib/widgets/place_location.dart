@@ -1,10 +1,12 @@
 import "package:flutter/material.dart";
+import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:location/location.dart";
 import "package:http/http.dart" as http;
 import "package:flutter_dotenv/flutter_dotenv.dart";
 import "dart:convert";
 
 import "package:flutter_favorite_places/models/place.dart";
+import "package:flutter_favorite_places/screens/map.dart";
 
 class PlaceLocation extends StatefulWidget {
   const PlaceLocation({super.key, required this.onSelectLocation});
@@ -62,18 +64,20 @@ class _PlaceLocationState extends State<PlaceLocation> {
       return;
     }
 
+    _savePlace(LatLng(latitude, longitude));
+  }
+
+  Future _savePlace(LatLng position) async {
     final googleMapsAPIKey = dotenv.env["GOOGLE_MAPS_API_KEY"];
     final googleGeocodingUrl = dotenv.env["GOOGLE_MAPS_GEOCODING_URL"];
     final googleMapsStaticMapUrl = dotenv.env["GOOGLE_MAPS_STATIC_MAP_URL"];
 
     final url = Uri.parse(
-      "$googleGeocodingUrl/json?latlng=$latitude,$longitude&key=$googleMapsAPIKey",
+      "$googleGeocodingUrl/json?latlng=${position.latitude},${position.longitude}&key=$googleMapsAPIKey",
     );
 
     final staticImage =
-        "$googleMapsStaticMapUrl?center=$latitude,$longitude&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C$latitude,$longitude&key=$googleMapsAPIKey";
-
-    print(staticImage);
+        "$googleMapsStaticMapUrl?center=${position.latitude},${position.longitude}&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:S%7C${position.latitude},${position.longitude}&key=$googleMapsAPIKey";
 
     final response = await http.get(url);
     final data = json.decode(response.body);
@@ -81,8 +85,8 @@ class _PlaceLocationState extends State<PlaceLocation> {
 
     setState(() {
       _location = CustomLocation(
-        latitude: latitude!,
-        longitude: longitude!,
+        latitude: position.latitude,
+        longitude: position.longitude,
         address: address,
       );
 
@@ -92,6 +96,18 @@ class _PlaceLocationState extends State<PlaceLocation> {
     });
 
     widget.onSelectLocation(_location);
+  }
+
+  void _selectOnMap() async {
+    final pickedLocation = await Navigator.of(
+      context,
+    ).push<LatLng?>(MaterialPageRoute(builder: (ctx) => const MapScreen()));
+
+    if (pickedLocation == null) {
+      return;
+    }
+
+    _savePlace(pickedLocation);
   }
 
   @override
@@ -140,7 +156,7 @@ class _PlaceLocationState extends State<PlaceLocation> {
               label: const Text("Get Location"),
             ),
             TextButton.icon(
-              onPressed: () {},
+              onPressed: _selectOnMap,
               icon: const Icon(Icons.map),
               label: const Text("Select on Map"),
             ),
