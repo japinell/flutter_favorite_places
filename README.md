@@ -1,6 +1,6 @@
 # Flutter Favorite Places
 
-## Description (Test)
+## Description
 
 This is a cross-platform "favorite places" application built with **Flutter** and **Dart**. It demonstrates state management, image capture & selection, device location, Google Maps integration, and persistent storage (local and optional remote). The app lets users add, view, and remove favorite places — each place can include a title, an image, and a geo-location.
 
